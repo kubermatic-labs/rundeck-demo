@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rundeck-runner
+spec:
+  selector:
+    matchLabels:
+      app: rundeck-runner
+  template:
+    metadata:
+      labels:
+        app: rundeck-runner
+    spec:
+      containers:
+        - image: rundeckpro/runner:5.2.0
+          imagePullPolicy: IfNotPresent
+          name: rundeck-runner
+          env:
+            - name: RUNNER_RUNDECK_CLIENT_ID
+              value: {{ .Values.config.clientID }}
+            - name: RUNNER_RUNDECK_SERVER_TOKEN
+              value: {{ .Values.config.serverToken }}
+            - name: RUNNER_RUNDECK_SERVER_URL
+              value: {{ .Values.config.serverUrl }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - touch this_is_from_rundeck_runner
+      restartPolicy: Always

@@ -1,0 +1,4 @@
+config:
+  clientID: To be filled out by end-user
+  serverToken: To be filled out by end-user
+  serverUrl: To be filled out by end-user
